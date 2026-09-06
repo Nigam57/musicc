@@ -96,6 +96,7 @@ object Updater {
             
             // Parse architecture and variant from filename
             val (arch, variant) = when {
+                name.startsWith("musicc-") -> "universal" to "foss"
                 name == "Meld.apk" -> "universal" to "foss"
                 name == "Meld-with-Google-Cast.apk" -> "universal" to "gms"
                 name.startsWith("app-") && name.endsWith("-release.apk") -> {
@@ -105,6 +106,10 @@ object Updater {
                 name.startsWith("app-") && name.endsWith("-with-Google-Cast.apk") -> {
                     val arch = name.removePrefix("app-").removeSuffix("-with-Google-Cast.apk")
                     arch to "gms"
+                }
+                name.startsWith("app-") && name.endsWith("-debug.apk") -> {
+                    val arch = name.removePrefix("app-").removeSuffix("-debug.apk")
+                    arch to "foss"
                 }
                 else -> null to null
             }
@@ -230,7 +235,7 @@ object Updater {
                     val releaseInfo = result.getOrThrow()
                     val hasUpdate = isUpdateAvailable(
                         BuildConfig.VERSION_NAME,
-                        releaseInfo.versionName
+                        releaseInfo.tagName
                     )
                     releaseInfo to hasUpdate
                 } else {
