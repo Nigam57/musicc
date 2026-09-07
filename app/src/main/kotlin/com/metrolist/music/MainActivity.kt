@@ -14,6 +14,8 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import com.metrolist.music.ui.screens.setup.SetupWizardScreen
+import com.metrolist.music.constants.HasSeenSetupWizardKey
 import android.os.IBinder
 import android.view.View
 import android.view.WindowManager
@@ -577,6 +579,11 @@ class MainActivity : ComponentActivity() {
             pureBlack = pureBlack,
             themeColor = themeColor,
         ) {
+        val hasSeenSetupWizard by rememberPreference(HasSeenSetupWizardKey, defaultValue = false)
+
+        if (!hasSeenSetupWizard) {
+            SetupWizardScreen()
+        } else {
         val hasSeenSetupWizard by rememberPreference(HasSeenSetupWizardKey, defaultValue = false)
 
         if (!hasSeenSetupWizard) {
