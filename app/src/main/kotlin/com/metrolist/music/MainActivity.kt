@@ -1204,72 +1204,48 @@ class MainActivity : ComponentActivity() {
                                             NavigationTab.LIBRARY -> Screens.Library
                                             else -> Screens.Home
                                         }.route,
-                                    // Enter Transition - smoother with smaller offset and longer duration
+                                    // Enter Transition
                                     enterTransition = {
-                                        val currentRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == targetState.destination.route
-                                            }
-                                        val previousRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == initialState.destination.route
-                                            }
-
-                                        if (currentRouteIndex == -1 || currentRouteIndex > previousRouteIndex) {
-                                            slideInHorizontally { it / 8 } + fadeIn(tween(200))
+                                        val currentRouteIndex = navigationItems.indexOfFirst { it.route == targetState.destination.route }
+                                        val previousRouteIndex = navigationItems.indexOfFirst { it.route == initialState.destination.route }
+                                        val isTopLevel = currentRouteIndex != -1 && previousRouteIndex != -1
+                                        if (isTopLevel) {
+                                            fadeIn(tween(300)) + androidx.compose.animation.scaleIn(initialScale = 0.97f, animationSpec = tween(300))
                                         } else {
-                                            slideInHorizontally { -it / 8 } + fadeIn(tween(200))
+                                            slideInHorizontally(animationSpec = tween(300)) { it / 8 } + fadeIn(tween(300))
                                         }
                                     },
-                                    // Exit Transition - smoother with smaller offset and longer duration
+                                    // Exit Transition
                                     exitTransition = {
-                                        val currentRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == initialState.destination.route
-                                            }
-                                        val targetRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == targetState.destination.route
-                                            }
-
-                                        if (targetRouteIndex == -1 || targetRouteIndex > currentRouteIndex) {
-                                            slideOutHorizontally { -it / 8 } + fadeOut(tween(200))
+                                        val currentRouteIndex = navigationItems.indexOfFirst { it.route == initialState.destination.route }
+                                        val targetRouteIndex = navigationItems.indexOfFirst { it.route == targetState.destination.route }
+                                        val isTopLevel = currentRouteIndex != -1 && targetRouteIndex != -1
+                                        if (isTopLevel) {
+                                            fadeOut(tween(300)) + androidx.compose.animation.scaleOut(targetScale = 0.97f, animationSpec = tween(300))
                                         } else {
-                                            slideOutHorizontally { it / 8 } + fadeOut(tween(200))
+                                            slideOutHorizontally(animationSpec = tween(300)) { -it / 8 } + fadeOut(tween(300))
                                         }
                                     },
-                                    // Pop Enter Transition - smoother with smaller offset and longer duration
+                                    // Pop Enter Transition
                                     popEnterTransition = {
-                                        val currentRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == targetState.destination.route
-                                            }
-                                        val previousRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == initialState.destination.route
-                                            }
-
-                                        if (previousRouteIndex != -1 && previousRouteIndex < currentRouteIndex) {
-                                            slideInHorizontally { it / 8 } + fadeIn(tween(200))
+                                        val currentRouteIndex = navigationItems.indexOfFirst { it.route == targetState.destination.route }
+                                        val previousRouteIndex = navigationItems.indexOfFirst { it.route == initialState.destination.route }
+                                        val isTopLevel = currentRouteIndex != -1 && previousRouteIndex != -1
+                                        if (isTopLevel) {
+                                            fadeIn(tween(300)) + androidx.compose.animation.scaleIn(initialScale = 0.97f, animationSpec = tween(300))
                                         } else {
-                                            slideInHorizontally { -it / 8 } + fadeIn(tween(200))
+                                            slideInHorizontally(animationSpec = tween(300)) { -it / 8 } + fadeIn(tween(300))
                                         }
                                     },
-                                    // Pop Exit Transition - smoother with smaller offset and longer duration
+                                    // Pop Exit Transition
                                     popExitTransition = {
-                                        val currentRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == initialState.destination.route
-                                            }
-                                        val targetRouteIndex =
-                                            navigationItems.indexOfFirst {
-                                                it.route == targetState.destination.route
-                                            }
-
-                                        if (currentRouteIndex != -1 && currentRouteIndex < targetRouteIndex) {
-                                            slideOutHorizontally { -it / 8 } + fadeOut(tween(200))
+                                        val currentRouteIndex = navigationItems.indexOfFirst { it.route == initialState.destination.route }
+                                        val targetRouteIndex = navigationItems.indexOfFirst { it.route == targetState.destination.route }
+                                        val isTopLevel = currentRouteIndex != -1 && targetRouteIndex != -1
+                                        if (isTopLevel) {
+                                            fadeOut(tween(300)) + androidx.compose.animation.scaleOut(targetScale = 0.97f, animationSpec = tween(300))
                                         } else {
-                                            slideOutHorizontally { it / 8 } + fadeOut(tween(200))
+                                            slideOutHorizontally(animationSpec = tween(300)) { it / 8 } + fadeOut(tween(300))
                                         }
                                     },
                                     modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),

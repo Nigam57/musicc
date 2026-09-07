@@ -203,6 +203,18 @@ fun AppearanceSettings(
 
     var showMiniPlayerBackgroundDialog by rememberSaveable { mutableStateOf(false) }
 
+    val (shiftingBottomNav, onShiftingBottomNavChange) =
+        rememberPreference(
+            com.metrolist.music.constants.ShiftingBottomNavigationKey,
+            defaultValue = true,
+        )
+
+    val (glassBottomNav, onGlassBottomNavChange) =
+        rememberPreference(
+            com.metrolist.music.constants.GlassBottomNavigationKey,
+            defaultValue = false,
+        )
+
     val (useNewMiniPlayerDesign, onUseNewMiniPlayerDesignChange) =
         rememberPreference(
             UseNewMiniPlayerDesignKey,
@@ -1107,6 +1119,48 @@ fun AppearanceSettings(
                                 )
                             },
                             onClick = { onUseNewMiniPlayerDesignChange(!useNewMiniPlayerDesign) },
+                        ),
+                    )
+                    add(
+                        Material3SettingsItem(
+                            title = { Text(stringResource(R.string.pref_shifting_bottom_nav_title)) },
+                            description = { Text(stringResource(R.string.pref_shifting_bottom_nav_summary)) },
+                            icon = painterResource(R.drawable.palette),
+                            trailingContent = {
+                                Switch(
+                                    checked = shiftingBottomNav,
+                                    onCheckedChange = onShiftingBottomNavChange,
+                                    thumbContent = {
+                                        Icon(
+                                            painter = painterResource(id = if (shiftingBottomNav) R.drawable.check else R.drawable.close),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                                        )
+                                    },
+                                )
+                            },
+                            onClick = { onShiftingBottomNavChange(!shiftingBottomNav) },
+                        ),
+                    )
+                    add(
+                        Material3SettingsItem(
+                            title = { Text(stringResource(R.string.pref_glass_bottom_nav_title)) },
+                            description = { Text(stringResource(R.string.pref_glass_bottom_nav_summary)) },
+                            icon = painterResource(R.drawable.palette),
+                            trailingContent = {
+                                Switch(
+                                    checked = glassBottomNav,
+                                    onCheckedChange = onGlassBottomNavChange,
+                                    thumbContent = {
+                                        Icon(
+                                            painter = painterResource(id = if (glassBottomNav) R.drawable.check else R.drawable.close),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                                        )
+                                    },
+                                )
+                            },
+                            onClick = { onGlassBottomNavChange(!glassBottomNav) },
                         ),
                     )
                     add(

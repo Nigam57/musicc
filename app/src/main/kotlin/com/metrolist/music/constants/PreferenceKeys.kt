@@ -601,6 +601,9 @@ val SPONSORBLOCK_ALL_CATEGORIES = listOf(
     "filler",
 )
 
+val ShiftingBottomNavigationKey = booleanPreferencesKey("shiftingBottomNavigation")
+val GlassBottomNavigationKey = booleanPreferencesKey("glassBottomNavigation")
+
 val LanguageCodeToName =
     mapOf(
         "af" to "Afrikaans",

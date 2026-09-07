@@ -1097,4 +1097,10 @@
     <string name="switch_to_list_view">Switch to list view</string>
     <string name="switch_to_grid_view">Switch to grid view</string>
     <string name="more_options">More options</string>
+
+    <!-- Bottom Nav Styles -->
+    <string name="pref_shifting_bottom_nav_title">Shifting bottom navigation pill</string>
+    <string name="pref_shifting_bottom_nav_summary">Use a floating pill-shaped navigation bar with dynamic shifting tabs</string>
+    <string name="pref_glass_bottom_nav_title">Glass bottom navigation pill</string>
+    <string name="pref_glass_bottom_nav_summary">Use a translucent frosted glass effect for the bottom navigation bar</string>
 </resources>
