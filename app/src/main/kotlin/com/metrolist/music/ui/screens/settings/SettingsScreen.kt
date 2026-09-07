@@ -39,6 +39,11 @@ import com.metrolist.music.ui.component.ReleaseNotesCard
 import com.metrolist.music.ui.utils.backToMain
 import com.metrolist.music.utils.Updater
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import androidx.datastore.preferences.core.edit
+import com.metrolist.music.utils.dataStore
+import com.metrolist.music.constants.HasSeenSetupWizardKey
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,6 +53,7 @@ fun SettingsScreen(
 ) {
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val isAndroid12OrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val hasAndroidAuto = remember {
         try {
@@ -219,6 +225,18 @@ fun SettingsScreen(
                     )
                 }
                 val showChangelog = com.metrolist.music.LocalChangelogState.current
+                add(
+                    Material3SettingsItem(
+                        icon = painterResource(R.drawable.refresh),
+                        title = { Text(stringResource(R.string.restart_setup_wizard)) },
+                        description = { Text(stringResource(R.string.restart_setup_wizard_summary)) },
+                        onClick = { 
+                            coroutineScope.launch {
+                                context.dataStore.edit { it[HasSeenSetupWizardKey] = false }
+                            }
+                        }
+                    )
+                )
                 add(
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.newspaper),

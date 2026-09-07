@@ -1101,6 +1101,24 @@
     <!-- Bottom Nav Styles -->
     <string name="pref_shifting_bottom_nav_title">Shifting bottom navigation pill</string>
     <string name="pref_shifting_bottom_nav_summary">Use a floating pill-shaped navigation bar with dynamic shifting tabs</string>
-    <string name="pref_glass_bottom_nav_title">Glass bottom navigation pill</string>
-    <string name="pref_glass_bottom_nav_summary">Use a translucent frosted glass effect for the bottom navigation bar</string>
+    <string name="pref_glass_bottom_nav_title">Glass Bottom Navigation</string>
+    <string name="pref_glass_bottom_nav_summary">Make the bottom navigation bar translucent with a blur effect</string>
+    <!-- Setup Wizard -->
+    <string name="restart_setup_wizard">Restart Setup Wizard</string>
+    <string name="restart_setup_wizard_summary">Launch the initial setup experience to reconfigure UI, Audio, and Accounts</string>
+    <string name="setup_wizard_next">Next</string>
+    <string name="setup_wizard_finish">Finish Setup</string>
+    <string name="setup_wizard_back">Back</string>
+    <string name="setup_look_and_feel">Look &amp; Feel</string>
+    <string name="setup_look_and_feel_desc">Choose your base theme and accent colors. These apply app-wide.</string>
+    <string name="setup_connect_library">Connect Library</string>
+    <string name="setup_connect_library_desc">Import your playlists, likes, and history to populate the app.</string>
+    <string name="setup_player_design">Player Design</string>
+    <string name="setup_player_design_desc">Customize the Now Playing screen.</string>
+    <string name="setup_bottom_nav">Bottom Navigation</string>
+    <string name="setup_bottom_nav_desc">Customize the app\'s main navigation bar.</string>
+    <string name="setup_audio_playback">Playback &amp; Audio</string>
+    <string name="setup_audio_playback_desc">Tune the sound engine to your preferences.</string>
+    <string name="setup_content_data">Content &amp; Data</string>
+    <string name="setup_content_data_desc">Customize your library and data privacy.</string>
 </resources>

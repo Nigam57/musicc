@@ -577,6 +577,11 @@ class MainActivity : ComponentActivity() {
             pureBlack = pureBlack,
             themeColor = themeColor,
         ) {
+        val hasSeenSetupWizard by rememberPreference(HasSeenSetupWizardKey, defaultValue = false)
+
+        if (!hasSeenSetupWizard) {
+            SetupWizardScreen()
+        } else {
             BoxWithConstraints(
                 modifier =
                     Modifier
