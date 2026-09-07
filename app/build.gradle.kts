@@ -33,8 +33,8 @@ android {
         applicationId = applicationIdOverride ?: "com.musicc.app.debug1"
         minSdk = 26
         targetSdk = 36
-        versionCode = 25
-        versionName = "0.8.9"
+        versionCode = 1
+        versionName = "0.0.1"
         resValue("string", "app_name", appNameOverride ?: "musicc")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
