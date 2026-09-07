@@ -56,7 +56,7 @@ object LastFM {
         format: String = "json"
     ) {
         contentType(ContentType.Application.FormUrlEncoded)
-        userAgent("Meld (https://github.com/FrancescoGrazioso/Meld)")
+        userAgent("Meld (https://github.com/Nigam57/musicc)")
         val paramsForSig = mutableMapOf(
             "method" to method,
             "api_key" to apiKey
