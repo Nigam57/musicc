@@ -584,11 +584,6 @@ class MainActivity : ComponentActivity() {
         if (!hasSeenSetupWizard) {
             SetupWizardScreen()
         } else {
-        val hasSeenSetupWizard by rememberPreference(HasSeenSetupWizardKey, defaultValue = false)
-
-        if (!hasSeenSetupWizard) {
-            SetupWizardScreen()
-        } else {
             BoxWithConstraints(
                 modifier =
                     Modifier
@@ -1320,6 +1315,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+                }
                 }
             }
         }
