@@ -19,8 +19,8 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
-import java.security.MessageDigest
 import kotlinx.serialization.json.jsonObject
+import java.security.MessageDigest
 
 object LastFM {
     var sessionKey: String? = null
@@ -56,7 +56,7 @@ object LastFM {
         format: String = "json"
     ) {
         contentType(ContentType.Application.FormUrlEncoded)
-        userAgent("Meld (https://github.com/FrancescoGrazioso/Meld)")
+        userAgent("Meld (https://github.com/Nigam57/Neuma)")
         val paramsForSig = mutableMapOf(
             "method" to method,
             "api_key" to apiKey
@@ -92,6 +92,10 @@ object LastFM {
                 extra = mapOf("token" to token)
             )
         }.body<Authentication>()
+    }
+
+    fun getAuthUrl(token: String): String {
+        return "https://www.last.fm/api/auth/?api_key=$API_KEY&token=$token"
     }
 
     // Mobile session authentication
