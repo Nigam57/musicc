@@ -124,7 +124,7 @@ If you do not have access to the private repo, the `notes/` directory will be em
 
 ### Context
 
-This repository is a fork of Metrolist that can fall hundreds of commits behind upstream. The fork contains custom features that **must never be lost or overwritten under any circumstances**. Previous merge and rebase attempts using `--theirs` have failed, either creating hundreds of conflicts or silently deleting custom features.
+This repository is a fork of Meld/Metrolist that can fall hundreds of commits behind upstream. The fork contains custom features that **must never be lost or overwritten under any circumstances**. Previous merge and rebase attempts using `--theirs` have failed, either creating hundreds of conflicts or silently deleting custom features.
 
 **The absolute priority is to preserve the maintainer's modifications. Time is not a constraint — a slow, meticulous process is always preferred over a fast, destructive one.**
 

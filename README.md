@@ -3,9 +3,9 @@
 <h1>Neuma</h1>
 <p>A music client that fuses Spotify and YouTube Music into one seamless experience</p>
 
-[![Latest release](https://img.shields.io/github/v/release/Nigam57/Neuma?style=for-the-badge)](https://github.com/Nigam57/Neuma/releases/latest)
-[![GitHub license](https://img.shields.io/github/license/Nigam57/Neuma?style=for-the-badge)](https://github.com/Nigam57/Neuma/blob/main/LICENSE)
-[![Downloads](https://img.shields.io/github/downloads/Nigam57/Neuma/total?style=for-the-badge)](https://github.com/Nigam57/Neuma/releases)
+[![Latest release](https://img.shields.io/github/v/release/Nigam57/musicc?style=for-the-badge)](https://github.com/Nigam57/musicc/releases/latest)
+[![GitHub license](https://img.shields.io/github/license/Nigam57/musicc?style=for-the-badge)](https://github.com/Nigam57/musicc/blob/main/LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/Nigam57/musicc/total?style=for-the-badge)](https://github.com/Nigam57/musicc/releases)
 
 </div>
 
