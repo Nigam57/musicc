@@ -1,5 +1,5 @@
-# Meld Dev Guide
-This file outlines the process of setting up a local dev environment for Meld.
+# Neuma Dev Guide
+This file outlines the process of setting up a local dev environment for Neuma.
 
 ## Prerequisites
 
@@ -12,8 +12,8 @@ This file outlines the process of setting up a local dev environment for Meld.
 This has been tested on Linux, but should work on other platforms with some adjustments.
 
 ```bash
-git clone https://github.com/FrancescoGrazioso/Meld
-cd Meld
+git clone https://github.com/Nigam57/Neuma
+cd Neuma
 git submodule update --init --recursive
 cd app
 bash generate_proto.sh

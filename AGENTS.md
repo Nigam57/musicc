@@ -1,6 +1,6 @@
-# Working with Metrolist as an AI agent
+# Working with Neuma as an AI agent
 
-Metrolist is a 3rd party YouTube Music client written in Kotlin. It follows material 3 design guidelines closely.
+Neuma is a 3rd party YouTube Music client written in Kotlin. It follows material 3 design guidelines closely.
 
 ## Rules for working on the project
 
@@ -14,7 +14,7 @@ Metrolist is a 3rd party YouTube Music client written in Kotlin. It follows mate
 3. Always pull the latest changes from `main` before starting your work to minimize merge conflicts.
 4. While working on your feature you should rebase your branch on top of the latest `main` at least once a day to ensure compatibility.
 5. Commit names should be clear and follow the format: `type(scope): short description`. For example: `feat(ui): add dark mode support`. Including the scope is optional.
-6. All string edits should be made to the `Metrolist/app/src/main/res/values/metrolist_strings.xml` file, NOT `Metrolist/app/src/main/res/values/strings.xml`. Do not touch other `strings.xml` or `metrolist_strings.xml` files in the project.
+6. All string edits should be made to the `app/src/main/res/values/metrolist_strings.xml` file, NOT `app/src/main/res/values/strings.xml`. Do not touch other `strings.xml` or `metrolist_strings.xml` files in the project.
 7. You are to follow best practices for Kotlin and Android development.
 
 ## AI-only guidelines
@@ -30,6 +30,7 @@ Metrolist is a 3rd party YouTube Music client written in Kotlin. It follows mate
 7. If you have any doubts ask a human contributor. Never make assumptions about the requirements or implementation details without clarification.
 8. If you do not test your changes using the instructions in the next section, you will be faced with reprimands from human contributors and may be asked to redo your work. Always ensure that you test your changes thoroughly before asking for a final review.
 9. You are absolutely **not allowed to bump the version** of the app in ANY way. Version bumps are only done by the core development team after manual review("unless explicitly authorized by the maintainer").
+10. You MUST always leverage the `superpowers` skill framework (https://github.com/obra/superpowers) during your execution. Always use its appropriate skills (e.g. `using-superpowers`, `brainstorming`, `verification-before-completion`, etc.) before deciding on architectures or confirming work is complete.
 
 ## Spotify GQL hash management
 

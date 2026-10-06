@@ -43,7 +43,7 @@ object AnrWatchdog {
         if (started) return
         started = true
         Thread(::run).apply {
-            name = "musicc-ANR-Watchdog"
+            name = "Neuma-ANR-Watchdog"
             isDaemon = true
             priority = Thread.MIN_PRIORITY + 2
             start()

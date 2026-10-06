@@ -1,10 +1,10 @@
 ---v13.4.0
 # MAINTENANCE MODE
-Metrolist is currently in maintenance mode. This means we will only be fixing bugs and making minor improvements. Please do not submit PRs for new features or major changes, as they will not be accepted.
+Neuma is currently in maintenance mode. This means we will only be fixing bugs and making minor improvements. Please do not submit PRs for new features or major changes, as they will not be accepted.
 
 No, this is not an April Fools joke, even though this update is being released on April 1st.
 
-We are working on something big for the future of Metrolist - this is not the end of the project.
+We are working on something big for the future of Neuma - this is not the end of the project.
 
 # Major changes
 - Multiple playback fixes and reliability improvements (@alltechdev)

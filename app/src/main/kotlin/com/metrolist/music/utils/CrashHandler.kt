@@ -80,7 +80,7 @@ class CrashHandler private constructor(
         }.toString()
 
         return buildString {
-            appendLine("musicc Crash Report")
+            appendLine("Neuma Crash Report")
             appendLine("=".repeat(50))
             appendLine()
             appendLine("Manufacturer: ${Build.MANUFACTURER}")

@@ -6,20 +6,48 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.R
 import com.metrolist.music.constants.HasSeenSetupWizardKey
+import com.metrolist.music.ui.screens.LoginScreen
+import com.metrolist.music.ui.screens.SpotifyLoginScreen
 import com.metrolist.music.utils.dataStore
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SetupWizardScreen() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "pager") {
+        composable("pager") {
+            SetupWizardPager(navController)
+        }
+        composable("login") {
+            CompositionLocalProvider(
+                LocalPlayerAwareWindowInsets provides WindowInsets.systemBars
+            ) {
+                LoginScreen(navController)
+            }
+        }
+        composable("settings/spotify/login") {
+            SpotifyLoginScreen(navController)
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SetupWizardPager(navController: NavController) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { 6 })
@@ -59,15 +87,16 @@ fun SetupWizardScreen() {
     ) { paddingValues ->
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.padding(paddingValues).fillMaxSize(),
-            userScrollEnabled = false
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) { page ->
             when (page) {
                 0 -> LookAndFeelPage()
-                1 -> ConnectLibraryPage()
-                2 -> PlayerDesignPage()
-                3 -> BottomNavPage()
-                4 -> AudioPlaybackPage()
+                1 -> ConnectLibraryPage(navController)
+                2 -> PlayerPage()
+                3 -> NavigationPage()
+                4 -> PlaybackAudioPage()
                 5 -> ContentDataPage()
             }
         }

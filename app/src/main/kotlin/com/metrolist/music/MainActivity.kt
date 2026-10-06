@@ -1016,7 +1016,7 @@ class MainActivity : ComponentActivity() {
                             val currentBackStackEntry = navController.currentBackStackEntry // reads reactively outside remember
 
                             val onNavItemClick: (Screens, Boolean) -> Unit =
-                                remember(navController, coroutineScope, topAppBarScrollBehavior, playerBottomSheetState, currentBackStackEntry) {
+                                remember(navController, coroutineScope, topAppBarScrollBehavior, playerBottomSheetState) {
                                     { screen: Screens, isSelected: Boolean ->
                                         if (playerBottomSheetState.isExpanded) {
                                             playerBottomSheetState.collapseSoft()
@@ -1217,7 +1217,7 @@ class MainActivity : ComponentActivity() {
                                         val previousRouteIndex = navigationItems.indexOfFirst { it.route == initialState.destination.route }
                                         val isTopLevel = currentRouteIndex != -1 && previousRouteIndex != -1
                                         if (isTopLevel) {
-                                            fadeIn(tween(300)) + androidx.compose.animation.scaleIn(initialScale = 0.97f, animationSpec = tween(300))
+                                            androidx.compose.animation.EnterTransition.None
                                         } else {
                                             slideInHorizontally(animationSpec = tween(300)) { it / 8 } + fadeIn(tween(300))
                                         }
@@ -1228,7 +1228,7 @@ class MainActivity : ComponentActivity() {
                                         val targetRouteIndex = navigationItems.indexOfFirst { it.route == targetState.destination.route }
                                         val isTopLevel = currentRouteIndex != -1 && targetRouteIndex != -1
                                         if (isTopLevel) {
-                                            fadeOut(tween(300)) + androidx.compose.animation.scaleOut(targetScale = 0.97f, animationSpec = tween(300))
+                                            androidx.compose.animation.ExitTransition.None
                                         } else {
                                             slideOutHorizontally(animationSpec = tween(300)) { -it / 8 } + fadeOut(tween(300))
                                         }
@@ -1239,7 +1239,7 @@ class MainActivity : ComponentActivity() {
                                         val previousRouteIndex = navigationItems.indexOfFirst { it.route == initialState.destination.route }
                                         val isTopLevel = currentRouteIndex != -1 && previousRouteIndex != -1
                                         if (isTopLevel) {
-                                            fadeIn(tween(300)) + androidx.compose.animation.scaleIn(initialScale = 0.97f, animationSpec = tween(300))
+                                            androidx.compose.animation.EnterTransition.None
                                         } else {
                                             slideInHorizontally(animationSpec = tween(300)) { -it / 8 } + fadeIn(tween(300))
                                         }
@@ -1250,7 +1250,7 @@ class MainActivity : ComponentActivity() {
                                         val targetRouteIndex = navigationItems.indexOfFirst { it.route == targetState.destination.route }
                                         val isTopLevel = currentRouteIndex != -1 && targetRouteIndex != -1
                                         if (isTopLevel) {
-                                            fadeOut(tween(300)) + androidx.compose.animation.scaleOut(targetScale = 0.97f, animationSpec = tween(300))
+                                            androidx.compose.animation.ExitTransition.None
                                         } else {
                                             slideOutHorizontally(animationSpec = tween(300)) { it / 8 } + fadeOut(tween(300))
                                         }

@@ -30,12 +30,12 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = applicationIdOverride ?: "com.musicc.app.debug1"
+        applicationId = applicationIdOverride ?: "com.neuma.app.debug1"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "0.0.1"
-        resValue("string", "app_name", appNameOverride ?: "musicc")
+        resValue("string", "app_name", appNameOverride ?: "Neuma")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -52,7 +52,7 @@ android {
         // and a fine-grained PAT with issues:write scoped to that repo only.
         // Both must be present at build time for reporting to be active at runtime.
         val crashRepo = localProperties.getProperty("CRASH_REPORT_REPO")
-            ?: System.getenv("CRASH_REPORT_REPO") ?: "Nigam57/musicc"
+            ?: System.getenv("CRASH_REPORT_REPO") ?: "Nigam57/Neuma"
         val crashToken = localProperties.getProperty("CRASH_REPORT_TOKEN")
             ?: System.getenv("CRASH_REPORT_TOKEN") ?: ""
         buildConfigField("String", "CRASH_REPORT_REPO", "\"$crashRepo\"")
@@ -131,7 +131,7 @@ android {
             }
             isDebuggable = true
             if (appNameOverride == null) {
-                resValue("string", "app_name", "musicc Debug 1")
+                resValue("string", "app_name", "Neuma Debug 1")
             }
             signingConfig =
                 if (workflowDebugKeystoreFile != null) {

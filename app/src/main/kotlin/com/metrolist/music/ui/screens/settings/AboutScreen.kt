@@ -97,7 +97,7 @@ private data class CommunityLink(
     val url: String
 )
 
-private val musiccDeveloper = Contributor(
+private val NeumaDeveloper = Contributor(
     name = "Nigam",
     roleRes = R.string.credits_developer,
     githubHandle = "Nigam57",
@@ -111,8 +111,8 @@ private val upstreamProjects = listOf(
 )
 
 private val communityLinks = listOf(
-    CommunityLink(R.string.credits_view_repo, R.drawable.github, "https://github.com/Nigam57/musicc"),
-    CommunityLink(R.string.credits_license_name, R.drawable.info, "https://github.com/Nigam57/musicc/blob/main/LICENSE")
+    CommunityLink(R.string.credits_view_repo, R.drawable.github, "https://github.com/Nigam57/Neuma"),
+    CommunityLink(R.string.credits_license_name, R.drawable.info, "https://github.com/Nigam57/Neuma/blob/main/LICENSE")
 )
 
 private fun handleEasterEggClick(
@@ -391,16 +391,16 @@ fun AboutScreen(
     
             // Meld developer
             ContributorAvatar(
-                avatarUrl = musiccDeveloper.avatarUrl,
+                avatarUrl = NeumaDeveloper.avatarUrl,
                 sizeDp = 180,
                 shape = CircleShape,
-                contentDescription = musiccDeveloper.name,
+                contentDescription = NeumaDeveloper.name,
             )
     
             Spacer(Modifier.height(24.dp))
     
             Text(
-                text = musiccDeveloper.name,
+                text = NeumaDeveloper.name,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -420,7 +420,7 @@ fun AboutScreen(
                         label = stringResource(R.string.credits_github),
                         iconRes = R.drawable.github,
                         iconSize = 24.dp,
-                        onClick = { uriHandler.openUri(musiccDeveloper.githubUrl) }
+                        onClick = { uriHandler.openUri(NeumaDeveloper.githubUrl) }
                     )
                 }
             }
