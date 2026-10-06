@@ -229,7 +229,7 @@ configurations.configureEach {
 dependencies {
     implementation(libs.guava)
     implementation(libs.coroutines.guava)
-    implementation(libs.concurrent.futures)
+
 
     implementation(libs.activity)
     implementation(libs.browser)
@@ -240,11 +240,11 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.util)
-    implementation(libs.compose.ui.tooling)
+
     implementation(libs.compose.animation)
     implementation(libs.compose.reorderable)
 
-    implementation(libs.viewmodel)
+
     implementation(libs.viewmodel.compose)
 
     implementation(libs.material3)
@@ -273,12 +273,12 @@ dependencies {
     implementation(libs.kuromoji.ipadic)
     implementation(libs.tinypinyin)
     ksp(libs.room.compiler)
-    implementation(libs.room.ktx)
 
-    implementation(libs.apache.lang3)
+
+
 
     implementation(libs.hilt)
-    implementation(libs.jsoup)
+
     ksp(libs.hilt.compiler)
 
     implementation(project(":innertube"))
