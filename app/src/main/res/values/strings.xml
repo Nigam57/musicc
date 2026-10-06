@@ -65,7 +65,7 @@
     <string name="library_song_empty">Library songs will show up here</string>
     <string name="library_artist_empty">Library artists will show up here</string>
     <string name="library_album_empty">Library albums will show up here</string>
-    <string name="library_playlist_empty">Your playlists will show up here</string>
+
 
     <!-- Artist screen -->
     <string name="from_your_library">From your library</string>
@@ -245,7 +245,7 @@
     <string name="dark_theme_on">On</string>
     <string name="dark_theme_off">Off</string>
     <string name="dark_theme_follow_system">Follow system</string>
-    <string name="pure_black">Pure black</string>
+
     <string name="customize_navigation_tabs">Customize navigation tabs</string>
     <string name="player">Player</string>
     <string name="player_text_alignment">Player text alignment</string>
