@@ -27,7 +27,7 @@ plugins {
 
 android {
     namespace = "com.metrolist.music"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = applicationIdOverride ?: "com.neuma.app.debug1"
@@ -229,7 +229,7 @@ configurations.configureEach {
 dependencies {
     implementation(libs.guava)
     implementation(libs.coroutines.guava)
-    implementation(libs.concurrent.futures)
+
 
     implementation(libs.activity)
     implementation(libs.browser)
@@ -240,11 +240,11 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.util)
-    implementation(libs.compose.ui.tooling)
+
     implementation(libs.compose.animation)
     implementation(libs.compose.reorderable)
 
-    implementation(libs.viewmodel)
+
     implementation(libs.viewmodel.compose)
 
     implementation(libs.material3)
@@ -273,23 +273,15 @@ dependencies {
     implementation(libs.kuromoji.ipadic)
     implementation(libs.tinypinyin)
     ksp(libs.room.compiler)
-    implementation(libs.room.ktx)
 
-    implementation(libs.apache.lang3)
+
+
 
     implementation(libs.hilt)
-    implementation(libs.jsoup)
+
     ksp(libs.hilt.compiler)
 
     implementation(project(":innertube"))
-    implementation(project(":kugou"))
-    implementation(project(":lrclib"))
-    implementation(project(":kizzy"))
-    implementation(project(":lastfm"))
-    implementation(project(":betterlyrics"))
-    implementation(project(":shazamkit"))
-    implementation(project(":spotify"))
-    implementation(project(":paxsenix"))
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
