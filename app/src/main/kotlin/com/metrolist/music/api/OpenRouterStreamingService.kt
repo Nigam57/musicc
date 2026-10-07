@@ -76,14 +76,14 @@ object OpenRouterStreamingService {
                     if (!response.isSuccessful) {
                         emit(
                             StreamChunk.Error(
-                                "Translation failed: ${apiErrorMessage(response.body.string(), response.code, response.message)}",
+                                "Translation failed: ${apiErrorMessage(response.body?.string(), response.code, response.message)}",
                             ),
                         )
                         return@flow
                     }
 
                     val content = StringBuilder()
-                    response.body.byteStream().bufferedReader().use { reader ->
+                    response.body?.byteStream()?.bufferedReader()?.use { reader ->
                         while (true) {
                             val line = reader.readLine() ?: break
                             if (!line.startsWith("data: ")) continue

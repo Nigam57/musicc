@@ -5,7 +5,7 @@ import com.metrolist.shazamkit.models.ShazamRequestJson
 import com.metrolist.shazamkit.models.ShazamResponseJson
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.header
@@ -38,7 +38,7 @@ object Shazam {
     private val resultCache = ConcurrentHashMap<String, CachedResult>()
 
     private val client by lazy {
-        HttpClient(OkHttp) {
+        HttpClient(CIO) {
             install(ContentNegotiation) {
                 json(
                     Json {

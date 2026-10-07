@@ -194,6 +194,7 @@ fun AccountSettings(
                 onDone = { data ->
                     var cookie = ""
                     var visitorDataValue = ""
+                    var authUserValue = ""
                     var dataSyncIdValue = ""
                     var accountNameValue = ""
                     var accountEmailValue = ""
@@ -203,6 +204,7 @@ fun AccountSettings(
                         when {
                             it.startsWith("***INNERTUBE COOKIE*** =") -> cookie = it.substringAfter("=")
                             it.startsWith("***VISITOR DATA*** =") -> visitorDataValue = it.substringAfter("=")
+                            it.startsWith("***AUTH USER*** =") -> authUserValue = it.substringAfter("=")
                             it.startsWith("***DATASYNC ID*** =") -> dataSyncIdValue = it.substringAfter("=")
                             it.startsWith("***ACCOUNT NAME*** =") -> accountNameValue = it.substringAfter("=")
                             it.startsWith("***ACCOUNT EMAIL*** =") -> accountEmailValue = it.substringAfter("=")
@@ -216,6 +218,7 @@ fun AccountSettings(
                         context = context,
                         cookie = cookie,
                         visitorData = visitorDataValue,
+                        authUser = authUserValue,
                         dataSyncId = dataSyncIdValue,
                         accountName = accountNameValue,
                         accountEmail = accountEmailValue,

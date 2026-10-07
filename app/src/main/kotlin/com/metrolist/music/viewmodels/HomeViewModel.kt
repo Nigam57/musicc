@@ -425,7 +425,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getCommunityPlaylists() {
-        val fromTimeStamp = System.currentTimeMillis() - 86400000L * 7 * 4
+        val fromTimeStamp = java.time.LocalDateTime.now().minusDays(28)
         val artistSeeds = database.mostPlayedArtists(fromTimeStamp, limit = 10).first()
             .filter { it.artist.isYouTubeArtist }
             .shuffled().take(3)
@@ -504,7 +504,7 @@ class HomeViewModel @Inject constructor(
         val hideExplicit = context.dataStore.get(HideExplicitKey, false)
         val hideVideoSongs = context.dataStore.get(HideVideoSongsKey, false)
         val hideYoutubeShorts = context.dataStore.get(HideYoutubeShortsKey, false)
-        val fromTimeStamp = System.currentTimeMillis() - 86400000L * 7 * 2
+        val fromTimeStamp = java.time.LocalDateTime.now().minusDays(14)
 
         // Read Spotify preferences directly from DataStore to avoid StateFlow race condition
         val prefs = context.dataStore.data.first()

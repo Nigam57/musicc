@@ -79,7 +79,7 @@ object OpenRouterService {
                             .build()
 
                     client.newCall(request).execute().use { response ->
-                        val responseBody = response.body.string()
+                        val responseBody = response.body?.string()
                         if (!response.isSuccessful) {
                             val error = apiErrorMessage(responseBody, response.code, response.message)
                             if (response.code >= 500) throw Exception(error)

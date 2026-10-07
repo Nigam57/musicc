@@ -409,7 +409,7 @@ fun NavGraphBuilder.navigationBuilder(
     }
 
     composable("settings/integrations/discord") {
-        DiscordSettings(navController)
+        DiscordSettings(navController, snackbarHostState)
     }
 
     composable("settings/integrations/lastfm") {
@@ -531,6 +531,6 @@ fun NavGraphBuilder.navigationBuilder(
         RecognitionHistoryScreen(navController)
     }
     composable("settings/android_auto") {
-        AndroidAutoSettings(navController)
+        AndroidAutoSettings(navController, scrollBehavior)
     }
 }

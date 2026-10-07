@@ -103,7 +103,7 @@ import com.metrolist.music.utils.DiscordRPC
 import com.metrolist.music.utils.SuperProperties
 import com.metrolist.music.utils.makeTimeString
 import com.metrolist.music.utils.rememberPreference
-import com.my.kizzy.rpc.KizzyRPC
+import com.metrolist.music.utils.KizzyRPC
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive

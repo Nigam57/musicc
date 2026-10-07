@@ -23,6 +23,7 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -46,6 +47,7 @@ android {
 
         buildConfigField("String", "LASTFM_API_KEY", "\"$lastFmKey\"")
         buildConfigField("String", "LASTFM_SECRET", "\"$lastFmSecret\"")
+        buildConfigField("Long", "DISCORD_APP_ID", "1122588147690623046L")
         buildConfigField("String", "ARCHITECTURE", "\"universal\"")
 
         // Crash reporting target: GitHub repo (owner/name) where Issues are created,
@@ -297,4 +299,25 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.junit)
+    implementation(libs.lifecycle.process)
+    implementation(libs.ktor.client.encoding)
+}
+
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.29.3"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+                create("kotlin") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

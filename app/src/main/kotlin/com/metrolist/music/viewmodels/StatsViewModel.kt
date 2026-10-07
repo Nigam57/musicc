@@ -15,7 +15,6 @@ import com.metrolist.innertube.models.Artist
 import com.metrolist.music.constants.HideVideoSongsKey
 import com.metrolist.music.constants.LastMonthlyMostPlaylistSyncKey
 import com.metrolist.music.constants.LastWeeklyMostPlaylistSyncKey
-import com.metrolist.music.constants.ShowMostStatsPlaylistsKey
 import com.metrolist.music.constants.StatPeriod
 import com.metrolist.music.constants.statToPeriod
 import com.metrolist.music.db.MusicDatabase
@@ -62,7 +61,7 @@ constructor(
     val indexChips = MutableStateFlow(0)
     private val showMostStatsPlaylists =
         context.dataStore.data
-            .map { it[ShowMostStatsPlaylistsKey] ?: true }
+            .map { it[androidx.datastore.preferences.core.booleanPreferencesKey("showMostStatsPlaylists")] ?: true }
             .distinctUntilChanged()
 
     val mostPlayedSongsStats =
@@ -246,7 +245,7 @@ constructor(
                 val nowEpochMillis = System.currentTimeMillis()
                 val preferences = context.dataStore.data.first()
                 val hideVideoSongs = preferences[HideVideoSongsKey] ?: false
-                val shouldShowMostStatsPlaylists = preferences[ShowMostStatsPlaylistsKey] ?: true
+                val shouldShowMostStatsPlaylists = preferences[androidx.datastore.preferences.core.booleanPreferencesKey("showMostStatsPlaylists")] ?: true
 
                 if (!shouldShowMostStatsPlaylists) {
                     clearMostPlaylists()

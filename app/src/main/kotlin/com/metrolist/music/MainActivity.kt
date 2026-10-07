@@ -219,7 +219,12 @@ import javax.inject.Inject
 @Suppress("DEPRECATION", "ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     companion object {
+        const val ACTION_OPEN_WIDGET_TARGET = "com.metrolist.music.action.OPEN_WIDGET_TARGET"
+        const val EXTRA_WIDGET_TARGET_TYPE = "widget_target_type"
+        const val EXTRA_WIDGET_TARGET_ID = "widget_target_id"
+
         private const val ACTION_SEARCH = "com.metrolist.music.action.SEARCH"
         private const val ACTION_LIBRARY = "com.metrolist.music.action.LIBRARY"
         const val ACTION_RECOGNITION = "com.metrolist.music.action.RECOGNITION"
@@ -914,6 +919,7 @@ class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalDatabase provides database,
                     LocalContentColor provides if (pureBlack) Color.White else contentColorFor(MaterialTheme.colorScheme.surface),
+                    LocalNavController provides navController,
                     LocalPlayerConnection provides playerConnection,
                     LocalPlayerAwareWindowInsets provides playerAwareWindowInsets,
                     LocalDownloadUtil provides downloadUtil,
@@ -1281,7 +1287,7 @@ class MainActivity : ComponentActivity() {
 
                     if (showAccountDialog) {
                         AccountSettingsDialog(
-                            navController = navController,
+                            
                             onDismiss = {
                                 showAccountDialog = false
                                 homeViewModel.refresh()
@@ -1307,7 +1313,7 @@ class MainActivity : ComponentActivity() {
                                     ) {
                                         YouTubeSongMenu(
                                             song = song,
-                                            navController = navController,
+                                            
                                             onDismiss = { sharedSong = null },
                                         )
                                     }

@@ -427,7 +427,18 @@ enum class MyTopFilter {
     YEAR,
     ;
 
+
+    fun toLocalDateTime(): java.time.LocalDateTime =
+        when (this) {
+            DAY -> java.time.LocalDateTime.now().minusDays(1)
+            WEEK -> java.time.LocalDateTime.now().minusWeeks(1)
+            MONTH -> java.time.LocalDateTime.now().minusMonths(1)
+            YEAR -> java.time.LocalDateTime.now().minusYears(1)
+            ALL_TIME -> java.time.LocalDateTime.of(1970, 1, 1, 0, 0)
+        }
+
     fun toTimeMillis(): Long =
+
         when (this) {
             DAY -> {
                 LocalDateTime

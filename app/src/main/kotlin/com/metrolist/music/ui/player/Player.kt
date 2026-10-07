@@ -120,7 +120,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.ProcessLifecycleOwner
+
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_ENDED
@@ -2006,13 +2006,14 @@ fun InlineLyricsView(
     val database = LocalDatabase.current
     val coroutineScope = rememberCoroutineScope()
 
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     var appInForeground by remember {
         mutableStateOf(
-            ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED),
+            lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED),
         )
     }
-    DisposableEffect(Unit) {
-        val lifecycle = ProcessLifecycleOwner.get().lifecycle
+    DisposableEffect(lifecycleOwner) {
+        val lifecycle = lifecycleOwner.lifecycle
         val observer =
             LifecycleEventObserver { _, _ ->
                 appInForeground = lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)

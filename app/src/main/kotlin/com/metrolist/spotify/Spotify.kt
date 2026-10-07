@@ -16,7 +16,7 @@ import com.metrolist.spotify.models.SpotifyTrack
 import com.metrolist.spotify.models.SpotifyUser
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
@@ -81,7 +81,7 @@ object Spotify {
         }
 
     private val restClient by lazy {
-        HttpClient(OkHttp) {
+        HttpClient(CIO) {
             install(ContentNegotiation) {
                 json(json)
             }
@@ -97,14 +97,7 @@ object Spotify {
     }
 
     private val gqlClient by lazy {
-        HttpClient(OkHttp) {
-            engine {
-                config {
-                    connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                    readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    writeTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                }
-            }
+        HttpClient(CIO) {
             defaultRequest {
                 header("User-Agent", randomUserAgent())
                 header("app-platform", "WebPlayer")
