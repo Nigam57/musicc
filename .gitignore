@@ -146,3 +146,8 @@ app/src/main/cpp/coverart/
 .graphifyignore
 docs/.obsidian/
 .obsidian/
+
+# Ignore docs except important ones
+/docs/*
+!/docs/spotify-gql-hashes.json
+!/docs/index.html
