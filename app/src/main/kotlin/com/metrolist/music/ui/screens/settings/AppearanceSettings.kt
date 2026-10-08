@@ -96,6 +96,8 @@ import com.metrolist.music.constants.ShowUploadedPlaylistKey
 import com.metrolist.music.constants.SliderStyle
 import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.SlimNavBarKey
+import com.metrolist.music.constants.ShiftingBottomNavigationKey
+import com.metrolist.music.constants.GlassBottomNavigationKey
 import com.metrolist.music.constants.SquigglySliderKey
 import com.metrolist.music.constants.SwipeSensitivityKey
 import com.metrolist.music.constants.SwipeThumbnailKey
@@ -271,6 +273,16 @@ fun AppearanceSettings(
     val (slimNav, onSlimNavChange) =
         rememberPreference(
             SlimNavBarKey,
+            defaultValue = false,
+        )
+    val (shiftingNav, onShiftingNavChange) =
+        rememberPreference(
+            ShiftingBottomNavigationKey,
+            defaultValue = false,
+        )
+    val (glassNav, onGlassNavChange) =
+        rememberPreference(
+            GlassBottomNavigationKey,
             defaultValue = false,
         )
 
@@ -1654,6 +1666,50 @@ fun AppearanceSettings(
                         },
                         onClick = { onSlimNavChange(!slimNav) },
                     ),
+                                        Material3SettingsItem(
+                        icon = painterResource(R.drawable.arrow_upward),
+                        title = { Text("Shifting bottom navigation") },
+                        trailingContent = {
+                            Switch(
+                                checked = shiftingNav,
+                                onCheckedChange = onShiftingNavChange,
+                                thumbContent = {
+                                    Icon(
+                                        painter =
+                                            painterResource(
+                                                id = if (shiftingNav) R.drawable.check else R.drawable.close,
+                                            ),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(SwitchDefaults.IconSize),
+                                    )
+                                },
+                            )
+                        },
+                        onClick = { onShiftingNavChange(!shiftingNav) },
+                    ),
+                    Material3SettingsItem(
+                        icon = painterResource(R.drawable.arrow_upward),
+                        title = { Text("Glass bottom navigation") },
+                        description = { Text("Requires Android 12+") },
+                        trailingContent = {
+                            Switch(
+                                checked = glassNav,
+                                onCheckedChange = onGlassNavChange,
+                                thumbContent = {
+                                    Icon(
+                                        painter =
+                                            painterResource(
+                                                id = if (glassNav) R.drawable.check else R.drawable.close,
+                                            ),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(SwitchDefaults.IconSize),
+                                    )
+                                },
+                            )
+                        },
+                        onClick = { onGlassNavChange(!glassNav) },
+                    ),
+
                     Material3SettingsItem(
                         icon = painterResource(R.drawable.group_outlined),
                         title = { Text(stringResource(R.string.listen_together_in_top_bar)) },
@@ -1869,3 +1925,7 @@ enum class LyricsPosition {
     CENTER,
     RIGHT,
 }
+
+
+
+

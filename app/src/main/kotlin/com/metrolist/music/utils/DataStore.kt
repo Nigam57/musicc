@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -18,6 +17,7 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import com.metrolist.music.extensions.toEnum
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -32,6 +32,9 @@ import java.io.IOException
 
 @Volatile private var dataStoreInstance: DataStore<Preferences>? = null
 private val dataStoreLock = Any()
+
+@PublishedApi
+internal val dataStoreScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 val Context.dataStore: DataStore<Preferences>
     get() {
@@ -58,13 +61,19 @@ suspend fun Context.safeDataStoreEdit(
     transform: suspend (MutablePreferences) -> Unit,
 ): Boolean {
     return try {
+        Timber.d("SafeDataStoreEdit starting")
         File(filesDir, "datastore").mkdirs()
-        dataStore.edit(transform)
+        val updatedPrefs = dataStore.edit(transform)
+        prefsSnapshot = updatedPrefs
+        Timber.d("SafeDataStoreEdit completed")
         true
     } catch (e: IOException) {
         Timber.e(e, "DataStore edit failed")
         reportException(e)
         false
+    } catch (e: kotlinx.coroutines.CancellationException) {
+        Timber.w(e, "SafeDataStoreEdit cancelled!")
+        throw e
     }
 }
 
@@ -128,7 +137,6 @@ fun <T> rememberPreference(
     defaultValue: T,
 ): MutableState<T> {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     val state =
         remember {
@@ -142,7 +150,9 @@ fun <T> rememberPreference(
             override var value: T
                 get() = state.value
                 set(value) {
-                    coroutineScope.launch {
+                    Timber.d("rememberPreference set() called for value: $value. Launching coroutine...")
+                    dataStoreScope.launch {
+                        Timber.d("rememberPreference coroutine started for value: $value")
                         context.safeDataStoreEdit {
                             it[key] = value
                         }
@@ -162,7 +172,6 @@ inline fun <reified T : Enum<T>> rememberEnumPreference(
     defaultValue: T,
 ): MutableState<T> {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     val state =
         remember {
@@ -176,7 +185,9 @@ inline fun <reified T : Enum<T>> rememberEnumPreference(
             override var value: T
                 get() = state.value
                 set(value) {
-                    coroutineScope.launch {
+                    Timber.d("rememberEnumPreference set() called for value: $value. Launching coroutine...")
+                    dataStoreScope.launch {
+                        Timber.d("rememberEnumPreference coroutine started for value: $value")
                         context.safeDataStoreEdit {
                             it[key] = value.name
                         }

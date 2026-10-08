@@ -12,6 +12,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.widget.Toast
+import com.metrolist.music.lyrics.lyricsTextLooksSynced
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -310,7 +311,7 @@ fun LyricsMenu(
                                 color = MaterialTheme.colorScheme.secondary,
                                 maxLines = 1,
                             )
-                            if (result.lyrics.startsWith("[")) {
+                            if (lyricsTextLooksSynced(result.lyrics)) {
                                 Icon(
                                     painter = painterResource(R.drawable.sync),
                                     contentDescription = null,
@@ -451,7 +452,7 @@ fun LyricsMenu(
                             onClick = {
                                 lyricsProvider()?.lyrics?.let { lyrics ->
                                     val plainLyrics =
-                                        if (lyrics.startsWith("[")) {
+                                        if (lyricsTextLooksSynced(lyrics)) {
                                             LyricsUtils.parseLyrics(lyrics)
                                                 .joinToString("\n") { it.text }
                                         } else {

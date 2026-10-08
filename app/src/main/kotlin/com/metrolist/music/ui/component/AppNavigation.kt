@@ -6,6 +6,21 @@
 package com.metrolist.music.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.width
+import coil3.compose.AsyncImage
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.background
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Icon
@@ -32,6 +47,24 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.metrolist.music.ui.screens.Screens
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.BoxWithConstraints
+import coil3.compose.AsyncImage
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxHeight
+import com.metrolist.music.LocalPlayerConnection
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 
 @Stable
 private fun isRouteSelected(currentRoute: String?, screenRoute: String, navigationItems: List<Screens>): Boolean {
@@ -136,83 +169,263 @@ fun AppNavigationBar(
     modifier: Modifier = Modifier,
     pureBlack: Boolean = false,
     slimNav: Boolean = false,
+    shiftingNav: Boolean = false,
+    glassNav: Boolean = false,
     onSearchLongClick: (() -> Unit)? = null,
     onHomeLongHold: (() -> Unit)? = null,
 ) {
-    val containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+
+    val baseContainerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
     val contentColor = if (pureBlack) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
     val haptics = LocalHapticFeedback.current
     val viewConfiguration = LocalViewConfiguration.current
+    val density = LocalDensity.current
+    
+    val playerConnection = LocalPlayerConnection.current
+    val mediaMetadata by playerConnection?.mediaMetadata?.collectAsState(initial = null) ?: remember { mutableStateOf(null) }
 
-    NavigationBar(
-        modifier = modifier,
-        containerColor = containerColor,
-        contentColor = contentColor
-    ) {
-        navigationItems.forEach { screen ->
-            val isSelected = remember(currentRoute, screen.route) {
-                isRouteSelected(currentRoute, screen.route, navigationItems)
-            }
-            val currentIsSelected by rememberUpdatedState(isSelected)
-            val iconRes = remember(isSelected, screen) {
-                if (isSelected) screen.iconIdActive else screen.iconIdInactive
-            }
+    if (shiftingNav) {
+        val containerColor = if (glassNav) baseContainerColor.copy(alpha = 0.55f) else baseContainerColor
+        val activeBackgroundColor = MaterialTheme.colorScheme.primaryContainer
+        val activeContentColor = MaterialTheme.colorScheme.onPrimaryContainer
 
-            val isSearchItem = screen == Screens.Search && onSearchLongClick != null
-            val isHomeHoldItem = screen == Screens.Home && onHomeLongHold != null
-            val interactionSource = remember { MutableInteractionSource() }
+        val bottomPadding = with(density) { WindowInsets.systemBars.getBottom(this).toDp() }
 
-            // Long press detection using InteractionSource
-            if (isSearchItem || isHomeHoldItem) {
-                LaunchedEffect(interactionSource) {
-                    var isLongClick = false
-                    interactionSource.interactions.collectLatest { interaction ->
-                        when (interaction) {
-                            is PressInteraction.Press -> {
-                                isLongClick = false
-                                delay(if (isHomeHoldItem) 15_000L else viewConfiguration.longPressTimeoutMillis)
-                                isLongClick = true
-                                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                                if (isHomeHoldItem) onHomeLongHold.invoke() else onSearchLongClick?.invoke()
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(bottom = bottomPadding + 8.dp)
+                    .padding(horizontal = 16.dp)
+                    .height(72.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(36.dp))
+                    .background(containerColor),
+                contentAlignment = Alignment.Center
+            ) {
+                if (glassNav && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    mediaMetadata?.thumbnailUrl?.let { url ->
+                        AsyncImage(
+                            model = url,
+                            contentDescription = null,
+                            contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .blur(60.dp)
+                        )
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .background(Color.Black.copy(alpha = 0.45f))
+                        )
+                    }
+                }
+
+                BoxWithConstraints(
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp, vertical = 8.dp)
+                ) {
+                    val totalWidth = maxWidth
+                    val gap = 8.dp
+                    val totalGaps = gap * (navigationItems.size - 1)
+                    val availableWidth = totalWidth - totalGaps
+                    
+                    val inactiveTabWidth = 56.dp
+                    val activeTabWidth = availableWidth - (inactiveTabWidth * (navigationItems.size - 1))
+
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalArrangement = Arrangement.spacedBy(gap),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        navigationItems.forEach { screen ->
+                            val isSelected = remember(currentRoute, screen.route) {
+                                isRouteSelected(currentRoute, screen.route, navigationItems)
                             }
-                            is PressInteraction.Release -> {
-                                if (!isLongClick) {
-                                    onItemClick(screen, currentIsSelected)
+                            val currentIsSelected by rememberUpdatedState(isSelected)
+                            val iconRes = remember(isSelected, screen) {
+                                if (isSelected) screen.iconIdActive else screen.iconIdInactive
+                            }
+
+                            val isSearchItem = screen == Screens.Search && onSearchLongClick != null
+                            val isHomeHoldItem = screen == Screens.Home && onHomeLongHold != null
+                            val interactionSource = remember { MutableInteractionSource() }
+
+                            if (isSearchItem || isHomeHoldItem) {
+                                LaunchedEffect(interactionSource) {
+                                    var isLongClick = false
+                                    interactionSource.interactions.collectLatest { interaction ->
+                                        when (interaction) {
+                                            is androidx.compose.foundation.interaction.PressInteraction.Press -> {
+                                                isLongClick = false
+                                                kotlinx.coroutines.delay(if (isHomeHoldItem) 15_000L else viewConfiguration.longPressTimeoutMillis)
+                                                isLongClick = true
+                                                haptics.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                                                if (isHomeHoldItem) onHomeLongHold?.invoke() else onSearchLongClick?.invoke()
+                                            }
+                                            is androidx.compose.foundation.interaction.PressInteraction.Release -> {
+                                                if (!isLongClick) {
+                                                    onItemClick(screen, currentIsSelected)
+                                                }
+                                            }
+                                            is androidx.compose.foundation.interaction.PressInteraction.Cancel -> {
+                                                isLongClick = false
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                            is PressInteraction.Cancel -> {
-                                isLongClick = false
+
+                            val bgColor by androidx.compose.animation.animateColorAsState(
+                                targetValue = if (isSelected) activeBackgroundColor else Color.Transparent,
+                                animationSpec = androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+                                label = "bgColor"
+                            )
+                            
+                            val tintColor by androidx.compose.animation.animateColorAsState(
+                                targetValue = if (isSelected) activeContentColor else contentColor,
+                                animationSpec = androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+                                label = "tintColor"
+                            )
+                            
+                            val targetWidth = if (isSelected) activeTabWidth else inactiveTabWidth
+                            val tabWidth by androidx.compose.animation.core.animateDpAsState(
+                                targetValue = targetWidth,
+                                animationSpec = androidx.compose.animation.core.tween(300, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+                                label = "tabWidth"
+                            )
+                            
+                            val textAlpha by androidx.compose.animation.core.animateFloatAsState(
+                                targetValue = if (isSelected && !slimNav) 1f else 0f,
+                                animationSpec = androidx.compose.animation.core.tween(300, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+                                label = "textAlpha"
+                            )
+
+                            Box(
+                                modifier = Modifier
+                                    .width(tabWidth)
+                                    .fillMaxHeight()
+                                    .clip(RoundedCornerShape(28.dp))
+                                    .background(bgColor)
+                                    .clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        role = androidx.compose.ui.semantics.Role.Tab
+                                    ) {
+                                        if (!isSearchItem && !isHomeHoldItem) {
+                                            onItemClick(screen, currentIsSelected)
+                                        }
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center,
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = iconRes),
+                                        contentDescription = stringResource(screen.titleId),
+                                        tint = tintColor
+                                    )
+                                    
+                                    if (!slimNav) {
+                                        Text(
+                                            text = stringResource(screen.titleId),
+                                            color = tintColor,
+                                            maxLines = 1,
+                                            softWrap = false,
+                                            modifier = Modifier
+                                                .padding(start = 8.dp)
+                                                .alpha(textAlpha),
+                                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+    } else {
+        val containerColor = if (glassNav) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+        NavigationBar(
+            modifier = modifier,
+            containerColor = containerColor,
+            contentColor = contentColor
+        ) {
+            navigationItems.forEach { screen ->
+                val isSelected = remember(currentRoute, screen.route) {
+                    isRouteSelected(currentRoute, screen.route, navigationItems)
+                }
+                val currentIsSelected by rememberUpdatedState(isSelected)
+                val iconRes = remember(isSelected, screen) {
+                    if (isSelected) screen.iconIdActive else screen.iconIdInactive
+                }
 
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = {
-                    if (!isSearchItem && !isHomeHoldItem) {
-                        onItemClick(screen, currentIsSelected)
+                val isSearchItem = screen == Screens.Search && onSearchLongClick != null
+                val isHomeHoldItem = screen == Screens.Home && onHomeLongHold != null
+                val interactionSource = remember { MutableInteractionSource() }
+
+                if (isSearchItem || isHomeHoldItem) {
+                    LaunchedEffect(interactionSource) {
+                        var isLongClick = false
+                        interactionSource.interactions.collectLatest { interaction ->
+                            when (interaction) {
+                                is androidx.compose.foundation.interaction.PressInteraction.Press -> {
+                                    isLongClick = false
+                                    kotlinx.coroutines.delay(if (isHomeHoldItem) 15_000L else viewConfiguration.longPressTimeoutMillis)
+                                    isLongClick = true
+                                    haptics.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                                    if (isHomeHoldItem) onHomeLongHold?.invoke() else onSearchLongClick?.invoke()
+                                }
+                                is androidx.compose.foundation.interaction.PressInteraction.Release -> {
+                                    if (!isLongClick) {
+                                        onItemClick(screen, currentIsSelected)
+                                    }
+                                }
+                                is androidx.compose.foundation.interaction.PressInteraction.Cancel -> {
+                                    isLongClick = false
+                                }
+                            }
+                        }
                     }
-                    // Long presses are handled via InteractionSource
-                },
-                interactionSource = interactionSource,
-                icon = {
-                    Icon(
-                        painter = painterResource(id = iconRes),
-                        contentDescription = stringResource(screen.titleId)
-                    )
-                },
-                label = if (!slimNav) {
-                    {
-                        Text(
-                            text = stringResource(screen.titleId),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                }
+
+                NavigationBarItem(
+                    selected = isSelected,
+                    onClick = {
+                        if (!isSearchItem && !isHomeHoldItem) {
+                            onItemClick(screen, currentIsSelected)
+                        }
+                    },
+                    interactionSource = interactionSource,
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = iconRes),
+                            contentDescription = stringResource(screen.titleId)
                         )
-                    }
-                } else null
-            )
+                    },
+                    alwaysShowLabel = !shiftingNav,
+                    label = if (!slimNav) {
+                        {
+                            Text(
+                                text = stringResource(screen.titleId),
+                                maxLines = 1,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                            )
+                        }
+                    } else null
+                )
+            }
         }
     }
 }
+
+
+
+
+
+

@@ -153,6 +153,8 @@ import com.metrolist.music.constants.SelectedThemeColorKey
 import com.metrolist.music.constants.SimpMusicMigrationDoneKey
 import com.metrolist.music.constants.SlimNavBarHeight
 import com.metrolist.music.constants.SlimNavBarKey
+import com.metrolist.music.constants.ShiftingBottomNavigationKey
+import com.metrolist.music.constants.GlassBottomNavigationKey
 import com.metrolist.music.constants.StopMusicOnTaskClearKey
 import com.metrolist.music.constants.UpdateNotificationsEnabledKey
 import com.metrolist.music.constants.UseNewMiniPlayerDesignKey
@@ -658,6 +660,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 val (slimNav) = rememberPreference(SlimNavBarKey, defaultValue = false)
+                val (shiftingNav) = rememberPreference(ShiftingBottomNavigationKey, defaultValue = false)
+                val (glassNav) = rememberPreference(GlassBottomNavigationKey, defaultValue = false)
                 val (useNewMiniPlayerDesign) = rememberPreference(UseNewMiniPlayerDesignKey, defaultValue = true)
                 val defaultOpenTab =
                     remember {
@@ -1090,6 +1094,8 @@ class MainActivity : ComponentActivity() {
                                         onItemClick = onNavItemClick,
                                         pureBlack = pureBlack,
                                         slimNav = slimNav,
+                                        shiftingNav = shiftingNav,
+                                        glassNav = glassNav,
                                         onSearchLongClick = onSearchLongClick,
                                         modifier =
                                             Modifier
