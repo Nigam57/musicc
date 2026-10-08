@@ -151,3 +151,5 @@ docs/.obsidian/
 /docs/*
 !/docs/spotify-gql-hashes.json
 !/docs/index.html
+AGENTS.md
+RESYNC_PLAN.md

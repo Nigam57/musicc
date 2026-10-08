@@ -111,8 +111,8 @@ private val upstreamProjects = listOf(
 )
 
 private val communityLinks = listOf(
-    CommunityLink(R.string.credits_view_repo, R.drawable.github, "https://github.com/Nigam57/Neuma"),
-    CommunityLink(R.string.credits_license_name, R.drawable.info, "https://github.com/Nigam57/Neuma/blob/main/LICENSE")
+    CommunityLink(R.string.credits_view_repo, R.drawable.github, "https://github.com/Nigam57/musicc"),
+    CommunityLink(R.string.credits_license_name, R.drawable.info, "https://github.com/Nigam57/musicc/blob/main/LICENSE")
 )
 
 private fun handleEasterEggClick(
